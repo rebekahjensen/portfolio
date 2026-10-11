@@ -104,8 +104,8 @@ p, a, h1, h2, h3, h4, h5, label, button {
   }
 
   a:hover {
-    color: #5000ca;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    color: #be185d;
+    transition: color .15s ease-in-out;
   }
 
   .navigation-bar svg {
@@ -113,7 +113,8 @@ p, a, h1, h2, h3, h4, h5, label, button {
   }
 
   .about-section {
-    background-image: url("./assets/images/bg-light.png");
+      background-color: transparent;
+      background-image: none;
   }
 
   .skills-container svg {

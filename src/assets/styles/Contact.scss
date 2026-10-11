@@ -1,48 +1,86 @@
-.contact_wrapper svg {
-  font-size: 1em;
-  vertical-align: middle;
-  margin-right: 5px;
-}
-
-.contact-form {
-  padding-top: 20px;
-
-  button {
-    float: right;
-    background-color: white;
-    color: #050f0b;
+#contact {
+  .contact_wrapper {
+    width: 100%;
+    max-width: 900px;
   }
 
-  button:hover {
-    background-color: #5000ca;
+  .contact-form {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-flex {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .MuiTextField-root {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .MuiOutlinedInput-root {
+    background-color: white;
+    color: #0d1116;
+  }
+
+  .MuiOutlinedInput-input {
+    color: #0d1116;
+    -webkit-text-fill-color: #0d1116;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    background-color: transparent;
+    pointer-events: none;
+    border-color: #9ca3af;
+  }
+
+  .MuiInputLabel-root {
+    color: #555;
+  }
+
+  .MuiInputLabel-root.MuiInputLabel-shrink {
+    background-color: transparent;
+    color: #ec4899;
+    padding: 0;
+    z-index: 2;
+    transform: translate(14px, -20px) scale(0.75);
+  }
+
+.MuiInputLabel-root.Mui-focused {
+  color: #ec4899;
+}
+
+  .MuiInputLabel-root.Mui-focused {
+    color: #be185d;
+  }
+
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #be185d;
+  }
+
+  .MuiButton-root {
+    align-self: flex-end;
+    background-color: #be185d;
     color: white;
+
+    &:hover {
+      background-color: #9d174d;
+    }
   }
+}
 
-  fieldset {
-    background-color: white;
+@media (max-width: 768px) {
+  #contact .form-flex {
+    grid-template-columns: 1fr;
   }
 }
 
-label {
-  font-size: 1.2rem;
-  font-family: 'DomaineDispNar-Medium', sans-serif;
-}
-
-.form-flex {
-  display: flex;
-  gap: 15px;
-  padding-bottom: 15px;
-}
-
-.form-flex .MuiFormControl-root {
-  width: 100%;
-}
-
-form {
-  width: 100% !important;
-}
-
-.body-form {
-  width: 100% !important;
-  margin-bottom: 15px !important;
-}
+  #contact .MuiOutlinedInput-notchedOutline legend {
+    max-width: 0;
+  }

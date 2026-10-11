@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
 import '../assets/styles/Contact.scss';
+import React, { useState } from 'react';
 // import emailjs from '@emailjs/browser';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -16,47 +16,43 @@ function Contact() {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [messageError, setMessageError] = useState<boolean>(false);
 
-  const form = useRef();
+const sendEmail = (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
 
-  const sendEmail = (e: any) => {
-    e.preventDefault();
+  const missingName = name.trim() === '';
+  const missingEmail = email.trim() === '';
+  const missingMessage = message.trim() === '';
 
-    setNameError(name === '');
-    setEmailError(email === '');
-    setMessageError(message === '');
+  setNameError(missingName);
+  setEmailError(missingEmail);
+  setMessageError(missingMessage);
 
-    /* Uncomment below if you want to enable the emailJS */
+  if (missingName || missingEmail || missingMessage) {
+    return;
+  }
 
-    // if (name !== '' && email !== '' && message !== '') {
-    //   var templateParams = {
-    //     name: name,
-    //     email: email,
-    //     message: message
-    //   };
+  const subject = encodeURIComponent(
+    `Portfolio inquiry from ${name.trim()}`
+  );
 
-    //   console.log(templateParams);
-    //   emailjs.send('service_id', 'template_id', templateParams, 'api_key').then(
-    //     (response) => {
-    //       console.log('SUCCESS!', response.status, response.text);
-    //     },
-    //     (error) => {
-    //       console.log('FAILED...', error);
-    //     },
-    //   );
-    //   setName('');
-    //   setEmail('');
-    //   setMessage('');
-    // }
-  };
+  const body = encodeURIComponent(
+    `Name: ${name.trim()}\nContact: ${email.trim()}\n\n${message.trim()}`
+  );
+
+  window.location.href =
+    `mailto:rebhjensen@gmail.com?subject=${subject}&body=${body}`;
+};
 
   return (
     <div id="contact">
       <div className="items-container">
         <div className="contact_wrapper">
           <h1>Contact Me</h1>
-          <p>Got a project waiting to be realized? Let's collaborate and make it happen!</p>
-          <Box
-            ref={form}
+            <p>
+              Get in touch! This form opens a draft in your email app
+              for you to review and send.
+            </p>          
+            <Box
             component="form"
             noValidate
             autoComplete="off"
@@ -103,9 +99,9 @@ function Contact() {
               error={messageError}
               helperText={messageError ? "Please enter the message" : ""}
             />
-            <Button variant="contained" endIcon={<SendIcon />} onClick={sendEmail}>
-              Send
-            </Button>
+              <Button variant="contained" endIcon={<SendIcon />} onClick={sendEmail}>
+                Open Email Draft
+              </Button>
           </Box>
         </div>
       </div>
@@ -113,4 +109,7 @@ function Contact() {
   );
 }
 
+
+
 export default Contact;
+

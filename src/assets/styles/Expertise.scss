@@ -82,4 +82,28 @@
             font-size: 12px;
         }
     }
+
+    
+}
+
+.expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+
+    h3 {
+        border-bottom: 3px solid #ec4899;
+        padding-bottom: 0.75rem;
+    }
+
+    p {
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 768px) {
+    .expertise-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
 }
