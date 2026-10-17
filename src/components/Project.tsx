@@ -10,14 +10,28 @@ function Project() {
 
       <div className="projects-grid">
         <div className="project">
-          <div className="project-media">
+          <a
+            className="project-media"
+            href="https://github.com/rebekahjensen/roadmap"
+            target="_blank"
+            rel="noreferrer"
+          >
             <img
               src={roadmap}
               alt="roadmap running route planner demonstration"
             />
-          </div>
+          </a>
 
-          <h2>roadmap</h2>
+          <h2>
+            <a
+              href="https://github.com/rebekahjensen/roadmap"
+              target="_blank"
+              rel="noreferrer"
+            >
+              roadmap
+            </a>
+          </h2>
+
           <p>
             Built a running route planner using React, TypeScript,
             and React Leaflet. Users can plan routes on an interactive
@@ -49,6 +63,7 @@ function Project() {
               Mestizaje
             </a>
           </h2>
+
           <p>
             Co-developed with Valeria Poveda, Mestizaje is an interactive
             application built with Python and Tkinter that helps users

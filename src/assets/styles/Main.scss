@@ -10,9 +10,11 @@
     padding: 0 15%;
     min-height: 700px;
     background-image: none;
+    overflow: hidden;
 }
 
 .about-section::before {
+    background-attachment: scroll;
     content: "";
     position: absolute;
     inset: 0;
@@ -23,7 +25,9 @@
     background-size: contain;
     background-position: center;
     filter: hue-rotate(45deg);
+    transform: translateY(var(--wave-offset, 0px));
 }
+
 
 .light-mode .about-section::before {
     background-image: url("../images/bg-light.png");
@@ -164,4 +168,14 @@
             width: 100%;
         }
     }
+}
+
+.about-section .social_icons a:hover,
+.about-section .mobile_social_icons a:hover {
+  color: #b8bec7;
+}
+
+.light-mode .about-section .social_icons a:hover,
+.light-mode .about-section .mobile_social_icons a:hover {
+  color: #626975;
 }

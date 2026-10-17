@@ -154,3 +154,76 @@ p, a, h1, h2, h3, h4, h5, label, button {
     }
   }
 }
+
+#about .about-heading {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 24px;
+  color: #ec4899;
+}
+
+.leadership-values {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  padding: 5% 10%;
+
+  .items-container {
+    padding: 0;
+    min-width: 0;
+    justify-content: flex-start;
+  }
+
+  h1 {
+    margin-top: 0;
+    color: #ec4899;
+  }
+
+  p {
+    margin-top: 0;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 768px) {
+  .leadership-values {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 5%;
+  }
+}
+
+.main-container {
+  h1, h2, h3, h4, h5, h6 {
+    color: #ec4899;
+
+    a {
+      color: inherit;
+    }
+  }
+}
+
+/* Expertise titles and individual project titles */
+.main-container .expertise-grid h3,
+.main-container .skills-grid h3,
+.main-container .projects-grid h2,
+.main-container .projects-grid h2 a {
+  color: white;
+}
+
+/* Keep them readable in light mode */
+.main-container.light-mode .expertise-grid h3,
+.main-container.light-mode .skills-grid h3,
+.main-container.light-mode .projects-grid h2,
+.main-container.light-mode .projects-grid h2 a {
+  color: #0d1116;
+}
+
+footer a:hover,
+footer a:hover svg {
+  color: #b8bec7;
+}
+
+.light-mode footer a:hover,
+.light-mode footer a:hover svg {
+  color: #626975;
+}

@@ -42,11 +42,13 @@ function App() {
       <FadeIn transitionDuration={700}>
         <Main />
         <About />
-        <Leadership />
         <Expertise />
-        <Values />
         <Timeline />
         <Project />
+        <div className="leadership-values">
+        <Leadership />
+        <Values />
+        </div>
         <Contact />
       </FadeIn>
 

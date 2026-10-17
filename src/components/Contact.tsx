@@ -1,107 +1,155 @@
-import '../assets/styles/Contact.scss';
-import React, { useState } from 'react';
-// import emailjs from '@emailjs/browser';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import TextField from '@mui/material/TextField';
+import "../assets/styles/Contact.scss";
+import React, { useRef, useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
+import TextField from "@mui/material/TextField";
 
 function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [messageError, setMessageError] = useState(false);
 
-  const [nameError, setNameError] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [messageError, setMessageError] = useState<boolean>(false);
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState("");
+  const submitting = useRef(false);
 
-const sendEmail = (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
+  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const missingName = name.trim() === '';
-  const missingEmail = email.trim() === '';
-  const missingMessage = message.trim() === '';
+    if (submitting.current) return;
 
-  setNameError(missingName);
-  setEmailError(missingEmail);
-  setMessageError(missingMessage);
+    const missingName = name.trim() === "";
+    const invalidEmail = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    const missingMessage = message.trim() === "";
 
-  if (missingName || missingEmail || missingMessage) {
-    return;
-  }
+    setNameError(missingName);
+    setEmailError(invalidEmail);
+    setMessageError(missingMessage);
+    setStatus("");
 
-  const subject = encodeURIComponent(
-    `Portfolio inquiry from ${name.trim()}`
-  );
+    if (missingName || invalidEmail || missingMessage) {
+      setStatus("Please check the highlighted fields.");
+      return;
+    }
 
-  const body = encodeURIComponent(
-    `Name: ${name.trim()}\nContact: ${email.trim()}\n\n${message.trim()}`
-  );
+    submitting.current = true;
+    setSending(true);
 
-  window.location.href =
-    `mailto:rebhjensen@gmail.com?subject=${subject}&body=${body}`;
-};
+    try {
+      const response = await fetch("https://formspree.io/f/xzedopyy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: message.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Submission failed");
+      }
+
+      setStatus("Thanks! Your message was sent successfully.");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setStatus(
+        "Your message could not be sent. Please try again or email me directly."
+      );
+    } finally {
+      submitting.current = false;
+      setSending(false);
+    }
+  };
 
   return (
     <div id="contact">
       <div className="items-container">
         <div className="contact_wrapper">
           <h1>Contact Me</h1>
+
             <p>
-              Get in touch! This form opens a draft in your email app
-              for you to review and send.
-            </p>          
-            <Box
+              Get in touch! Send me a message using the form below.
+            </p>
+
+          <Box
             component="form"
+            onSubmit={sendEmail}
             noValidate
-            autoComplete="off"
-            className='contact-form'
+            className="contact-form"
+            aria-busy={sending}
           >
-            <div className='form-flex'>
+            <div className="form-flex">
               <TextField
                 required
-                id="outlined-required"
+                id="contact-name"
+                name="name"
                 label="Your Name"
                 placeholder="What's your name?"
+                autoComplete="name"
                 value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
+                onChange={(e) => setName(e.target.value)}
+                disabled={sending}
                 error={nameError}
                 helperText={nameError ? "Please enter your name" : ""}
               />
+
               <TextField
                 required
-                id="outlined-required"
-                label="Email / Phone"
+                id="contact-email"
+                name="email"
+                type="email"
+                label="Email"
                 placeholder="How can I reach you?"
+                autoComplete="email"
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={sending}
                 error={emailError}
-                helperText={emailError ? "Please enter your email or phone number" : ""}
+                helperText={
+                  emailError ? "Please enter a valid email address" : ""
+                }
               />
             </div>
+
             <TextField
               required
-              id="outlined-multiline-static"
+              id="contact-message"
+              name="message"
               label="Message"
               placeholder="Send me any inquiries or questions"
               multiline
               rows={10}
               className="body-form"
               value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-              }}
+              onChange={(e) => setMessage(e.target.value)}
+              disabled={sending}
               error={messageError}
-              helperText={messageError ? "Please enter the message" : ""}
+              helperText={messageError ? "Please enter your message" : ""}
             />
-              <Button variant="contained" endIcon={<SendIcon />} onClick={sendEmail}>
-                Open Email Draft
-              </Button>
+
+            <Button
+              type="submit"
+              variant="contained"
+              endIcon={<SendIcon />}
+              disabled={sending}
+            >
+              {sending ? "Sending..." : "Send Message"}
+            </Button>
+
+            <p role="status" aria-live="polite">
+              {status}
+            </p>
           </Box>
         </div>
       </div>
@@ -109,7 +157,4 @@ const sendEmail = (e: React.MouseEvent<HTMLButtonElement>) => {
   );
 }
 
-
-
 export default Contact;
-
